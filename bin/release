@@ -10,7 +10,7 @@ MANAGE_FILE=${MANAGE_FILE:2}
 cat <<EOF
 ---
 config_vars:
-
+  ROOT_DIR: /app
 EOF
 
 
