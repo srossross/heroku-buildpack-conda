@@ -5,7 +5,7 @@ bpwatch start conda_install_brackish
 
 
 set +e
-/app/.heroku/miniconda/bin/conda install -c sean brackish | tee $WARNINGS_LOG | cleanup | indent
+/app/.heroku/miniconda/bin/conda install -y -q -c sean brackish | tee $WARNINGS_LOG | cleanup | indent
 CONDA_STATUS="${PIPESTATUS[0]}"
 set -e
 

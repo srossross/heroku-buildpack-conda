@@ -2,16 +2,15 @@ set +e
 PYTHON_VERSION=$(cat runtime.txt)
 
 # # Install Python.
-# if [ -f .heroku/python-version ]; then
-#   if [ ! $(cat .heroku/python-version) = $PYTHON_VERSION ]; then
-#     bpwatch start uninstall_python
-#       puts-step "Found $(cat .heroku/python-version), removing"
-#       rm -fr .heroku/python
-#     bpwatch stop uninstall_python
-#   else
-#     SKIP_INSTALL=1
-#   fi
-# fi
+if [ -d  ".heroku/miniconda" ]; then
+
+    bpwatch start uninstall_python
+      
+      puts-step "Found .heroku/miniconda"
+      .heroku/miniconda/bin/conda info | tee $WARNINGS_LOG | cleanup | indent
+    bpwatch stop uninstall_python
+    SKIP_INSTALL=1
+fi
 
 # if [ ! $STACK = $CACHED_PYTHON_STACK ]; then
 #   bpwatch start uninstall_python
@@ -52,6 +51,13 @@ if [ ! "$SKIP_INSTALL" ]; then
   FRESH_PYTHON=true
 
   hash -r
+else
+
+  bpwatch start update_conda
+    puts-step "Updating conda"
+    /app/.heroku/miniconda/bin/conda install conda -y -q | tee $WARNINGS_LOG | cleanup | indent
+  bpwatch stop update_conda
+
 fi
 
 # # If Pip isn't up to date:
