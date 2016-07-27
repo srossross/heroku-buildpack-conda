@@ -33,7 +33,7 @@ LEGACY_TRIGGER="lib/python2.7"
 
 DEFAULT_PYTHON_VERSION="python-2.7.12"
 DEFAULT_PYTHON_STACK="cedar-14"
-PYTHON_EXE="/app/.heroku/python/bin/python"
+PYTHON_EXE="/app/.heroku/miniconda/bin/python"
 PIP_VERSION="8.1.2"
 SETUPTOOLS_VERSION="23.1.0"
 
@@ -109,15 +109,8 @@ GUNICORN_PROFILE_PATH="$BUILD_DIR/.profile.d/python.gunicorn.sh"
 export BUILD_DIR CACHE_DIR BIN_DIR PROFILE_PATH
 
 # Prepend proper environment variables for Python use.
-export PATH=$BUILD_DIR/.heroku/python/bin:$BUILD_DIR/.heroku/vendor/bin:$PATH
+export PATH=$BUILD_DIR/.heroku/miniconda/bin:$BUILD_DIR/.heroku/vendor/bin:$PATH
 export PYTHONUNBUFFERED=1
-export LANG=en_US.UTF-8
-export C_INCLUDE_PATH=/app/.heroku/vendor/include:$BUILD_DIR/.heroku/vendor/include:/app/.heroku/python/include:$C_INCLUDE_PATH
-export CPLUS_INCLUDE_PATH=/app/.heroku/vendor/include:$BUILD_DIR/.heroku/vendor/include:/app/.heroku/python/include:$CPLUS_INCLUDE_PATH
-export LIBRARY_PATH=/app/.heroku/vendor/lib:$BUILD_DIR/.heroku/vendor/lib:/app/.heroku/python/lib:$LIBRARY_PATH
-export LD_LIBRARY_PATH=/app/.heroku/vendor/lib:$BUILD_DIR/.heroku/vendor/lib:/app/.heroku/python/lib:$LD_LIBRARY_PATH
-export PKG_CONFIG_PATH=/app/.heroku/vendor/lib/pkg-config:$BUILD_DIR/.heroku/vendor/lib/pkg-config:/app/.heroku/python/lib/pkg-config:$PKG_CONFIG_PATH
-
 # Switch to the repo's context.
 cd $BUILD_DIR
 
@@ -168,7 +161,7 @@ bpwatch stop clear_old_venvs
 bpwatch start restore_cache
     mkdir -p .heroku
 
-    cp -R $CACHE_DIR/.heroku/python .heroku/ &> /dev/null || true
+    cp -R $CACHE_DIR/.heroku/miniconda .heroku/ &> /dev/null || true
     cp -R $CACHE_DIR/.heroku/python-stack .heroku/ &> /dev/null || true
     cp -R $CACHE_DIR/.heroku/python-version .heroku/ &> /dev/null || true
     cp -R $CACHE_DIR/.heroku/vendor .heroku/ &> /dev/null || true
@@ -215,11 +208,9 @@ sub-env $BIN_DIR/steps/collectstatic
 
 
 # Create .profile script for application runtime environment variables.
-set-env PATH '$HOME/.heroku/python/bin:$PATH'
+set-env PATH '$HOME/.heroku/miniconda/bin:$PATH'
 set-env PYTHONUNBUFFERED true
-set-env PYTHONHOME /app/.heroku/python
-set-env LIBRARY_PATH '/app/.heroku/vendor/lib:/app/.heroku/python/lib:$LIBRARY_PATH'
-set-env LD_LIBRARY_PATH '/app/.heroku/vendor/lib:/app/.heroku/python/lib:$LD_LIBRARY_PATH'
+set-env PYTHONHOME /app/.heroku/miniconda
 set-default-env LANG en_US.UTF-8
 set-default-env PYTHONHASHSEED random
 set-default-env PYTHONPATH /app/
@@ -236,14 +227,14 @@ bpwatch stop post_compile
 # Store new artifacts in cache.
 bpwatch start dump_cache
 
-  rm -rf $CACHE_DIR/.heroku/python
+  rm -rf $CACHE_DIR/.heroku/miniconda
   rm -rf $CACHE_DIR/.heroku/python-version
   rm -rf $CACHE_DIR/.heroku/python-stack
   rm -rf $CACHE_DIR/.heroku/vendor
   rm -rf $CACHE_DIR/.heroku/venv
 
   mkdir -p $CACHE_DIR/.heroku
-  cp -R .heroku/python $CACHE_DIR/.heroku/
+  cp -R .heroku/miniconda $CACHE_DIR/.heroku/
   cp -R .heroku/python-version $CACHE_DIR/.heroku/
   cp -R .heroku/python-stack $CACHE_DIR/.heroku/ &> /dev/null || true
   cp -R .heroku/vendor $CACHE_DIR/.heroku/ &> /dev/null || true
