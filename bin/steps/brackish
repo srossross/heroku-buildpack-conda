@@ -17,7 +17,7 @@ fi
 
 
 # Smart Requirements handling
-/app/.heroku/miniconda/bin/conda list --export > .heroku/python/requirements-installed.conda
+/app/.heroku/miniconda/bin/conda list --export > .heroku/miniconda/requirements-installed.conda
 
 bpwatch stop conda_install_brackish
 
