@@ -17,7 +17,6 @@ fi
 
 
 # Smart Requirements handling
-cp requirements.txt .heroku/python/requirements-declared.txt
 /app/.heroku/miniconda/bin/conda list --export > .heroku/python/requirements-installed.conda
 
 bpwatch stop conda_install_brackish
