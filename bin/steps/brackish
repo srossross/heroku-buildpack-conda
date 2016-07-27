@@ -1,0 +1,25 @@
+# Install dependencies with Pip.
+puts-cmd "conda install brackish"
+
+bpwatch start conda_install_brackish
+
+
+set +e
+/app/.heroku/miniconda/bin/conda install -c sean brackish | tee $WARNINGS_LOG | cleanup | indent
+CONDA_STATUS="${PIPESTATUS[0]}"
+set -e
+
+show-warnings
+
+if [[ ! $CONDA_STATUS -eq 0 ]]; then
+    exit 1
+fi
+
+
+# Smart Requirements handling
+cp requirements.txt .heroku/python/requirements-declared.txt
+/app/.heroku/miniconda/bin/conda list --export > .heroku/python/requirements-installed.conda
+
+bpwatch stop conda_install_brackish
+
+echo

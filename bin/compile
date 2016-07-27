@@ -125,10 +125,10 @@ bpwatch start pre_compile
   source $BIN_DIR/steps/hooks/pre_compile
 bpwatch stop pre_compile
 
-# If no requirements.txt file given, assume `setup.py develop` is intended.
-if [ ! -f requirements.txt ]; then
-  echo "-e ." > requirements.txt
-fi
+# # If no requirements.txt file given, assume `setup.py develop` is intended.
+# if [ ! -f requirements.txt ]; then
+#   echo "-e ." > requirements.txt
+# fi
 
 
 # Sticky runtimes.
@@ -179,32 +179,35 @@ mkdir -p $(dirname $PROFILE_PATH)
 # Install Python.
 source $BIN_DIR/steps/miniconda
 
-# Sanity check for setuptools/distribute.
-source $BIN_DIR/steps/setuptools
+# Install Brackish
+source $BIN_DIR/steps/brackish
 
-# Uninstall removed dependencies with Pip.
-source $BIN_DIR/steps/pip-uninstall
+# # Sanity check for setuptools/distribute.
+# source $BIN_DIR/steps/setuptools
 
-# Mercurial support.
-source $BIN_DIR/steps/mercurial
+# # Uninstall removed dependencies with Pip.
+# source $BIN_DIR/steps/pip-uninstall
 
-# Pylibmc support.
-source $BIN_DIR/steps/pylibmc
+# # Mercurial support.
+# source $BIN_DIR/steps/mercurial
 
-# Libffi support.
-source $BIN_DIR/steps/cryptography
+# # Pylibmc support.
+# source $BIN_DIR/steps/pylibmc
 
-# Support for Geo libraries.
-sub-env $BIN_DIR/steps/geo-libs
+# # Libffi support.
+# source $BIN_DIR/steps/cryptography
 
-# GDAL support.
-source $BIN_DIR/steps/gdal
+# # Support for Geo libraries.
+# sub-env $BIN_DIR/steps/geo-libs
 
-# Install dependencies with Pip.
-source $BIN_DIR/steps/pip-install
+# # GDAL support.
+# source $BIN_DIR/steps/gdal
 
-# Django collectstatic support.
-sub-env $BIN_DIR/steps/collectstatic
+# # Install dependencies with Pip.
+# source $BIN_DIR/steps/pip-install
+
+# # Django collectstatic support.
+# sub-env $BIN_DIR/steps/collectstatic
 
 
 # Create .profile script for application runtime environment variables.
