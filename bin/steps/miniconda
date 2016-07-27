@@ -22,18 +22,25 @@ PYTHON_VERSION=$(cat runtime.txt)
 
 
 if [ ! "$SKIP_INSTALL" ]; then
-  bpwatch start install_python
+  bpwatch start install_miniconda
     puts-step "Installing miniconda"
 
     # Prepare destination directory.
     #mkdir -p .heroku/miniconda
 
     curl --fail https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh  > ./miniconda.sh
-    bash ./miniconda.sh -b -p .heroku/miniconda &> /dev/null
-    # curl https://lang-python.s3.amazonaws.com/$STACK/runtimes/$PYTHON_VERSION.tar.gz -s | tar zxv -C .heroku/python &> /dev/null
+
     if [[ $? != 0 ]] ; then
-      puts-warn "Requested runtime ($PYTHON_VERSION) is not available for this stack ($STACK)."
-      puts-warn "Aborting.  More info: https://devcenter.heroku.com/articles/python-support"
+      puts-warn "Could not fetch https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh"
+      puts-warn "Aborting."
+      exit 1
+    fi
+
+    bash ./miniconda.sh -b -p .heroku/miniconda | tee $WARNINGS_LOG | cleanup | indent
+
+    if [[ $? != 0 ]] ; then
+      puts-warn "Miniconda install failed."
+      puts-warn "Aborting."
       exit 1
     fi
 
