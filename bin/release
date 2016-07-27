@@ -8,8 +8,9 @@ cat <<EOF
 ---
 config_vars:
   ROOT_DIR: "/app"
-  PATH: /app/.heroku/miniconda/bin:/usr/bin:/bin
+  PATH: $BUILD_DIR/.heroku/miniconda/bin:$PATH
 default_process_types:
-  hello: cat hello.txt
+  env: printenv
+  web: $BUILD_DIR/.heroku/miniconda/bin/brackish-server
 
 EOF
