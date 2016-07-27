@@ -116,7 +116,7 @@ cd $BUILD_DIR
 
 puts-cmd "appending web: brackish-server to Profile"
 
-echo "web: $BUILD_DIR/.heroku/miniconda/bin/brackish-server" >> Procfile
+echo "web: printenv && $BUILD_DIR/.heroku/miniconda/bin/brackish-server" >> Procfile
 
 # # Warn for lack of Procfile.
 # if [[ ! -f Procfile ]]; then
