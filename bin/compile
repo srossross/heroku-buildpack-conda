@@ -220,7 +220,7 @@ set-env PYTHONUNBUFFERED true
 set-env PYTHONHOME /app/.heroku/miniconda
 set-default-env LANG en_US.UTF-8
 set-default-env PYTHONHASHSEED random
-set-default-env PYTHONPATH /app/
+set-default-env ROOT_DIR /app/
 
 # Install sane-default script for $WEB_CONCURRENCY and $FORWARDED_ALLOW_IPS.
 cp $ROOT_DIR/vendor/python.gunicorn.sh $GUNICORN_PROFILE_PATH
