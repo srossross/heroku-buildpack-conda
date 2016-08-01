@@ -217,7 +217,6 @@ source $BIN_DIR/steps/brackish
 # Create .profile script for application runtime environment variables.
 set-env PATH '$HOME/.heroku/miniconda/bin:$PATH'
 set-env PYTHONUNBUFFERED true
-set-env PYTHONHOME /app/.heroku/miniconda
 set-default-env LANG en_US.UTF-8
 set-default-env PYTHONHASHSEED random
 set-default-env ROOT_DIR /app/
