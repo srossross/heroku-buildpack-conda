@@ -11,7 +11,7 @@ puts-cmd "conda create -p ./_env --file requirements.conda"
 bpwatch start conda_create
 
 set +e
-/app/.heroku/miniconda/bin/conda create -p /app/_env --file requirements.conda 2>&1 | tee $WARNINGS_LOG | cleanup | indent
+/app/.heroku/miniconda/bin/conda create -q -y -p /app/_env --file requirements.conda 2>&1 | tee $WARNINGS_LOG | cleanup | indent
 CONDA_STATUS="${PIPESTATUS[0]}"
 set -e
 
