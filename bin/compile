@@ -214,8 +214,9 @@ source $BIN_DIR/steps/brackish
 # # GDAL support.
 # source $BIN_DIR/steps/gdal
 
-# Install dependencies with Pip.
-source $BIN_DIR/steps/conda-create
+# TODO: disable this for now. slug is too large.
+# # Install dependencies with Pip.
+# source $BIN_DIR/steps/conda-create
 
 # # Django collectstatic support.
 # sub-env $BIN_DIR/steps/collectstatic
