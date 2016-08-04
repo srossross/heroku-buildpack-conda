@@ -21,5 +21,6 @@ if [[ ! $CONDA_STATUS -eq 0 ]]; then
     exit 1
 fi
 
+/app/.heroku/miniconda/bin/conda clean -y -a
 bpwatch stop conda_create
 echo
