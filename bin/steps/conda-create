@@ -1,0 +1,25 @@
+
+
+# If no requirements.conda then just exit
+if [ ! -f requirements.conda ]; then
+  exit 0
+fi
+
+# Install dependencies with Pip.
+puts-cmd "conda create -p ./_env --file requirements.conda"
+
+bpwatch start conda_create
+
+set +e
+/app/.heroku/miniconda/bin/conda create -p /app/_env --file requirements.conda 2>&1 | tee $WARNINGS_LOG | cleanup | indent
+CONDA_STATUS="${PIPESTATUS[0]}"
+set -e
+
+show-warnings
+
+if [[ ! $CONDA_STATUS -eq 0 ]]; then
+    exit 1
+fi
+
+bpwatch stop conda_create
+echo

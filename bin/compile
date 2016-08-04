@@ -118,6 +118,13 @@ puts-cmd "appending web: brackish-server to Profile"
 
 echo "web: printenv && $BUILD_DIR/.heroku/miniconda/bin/brackish-server" >> Procfile
 
+
+puts-cmd "adding .ignore file"
+echo "" >> .ignore
+echo ".heroku" >> .ignore
+echo "Procfile" >> .ignore
+echo ".profile.d" >> .ignore
+
 # # Warn for lack of Procfile.
 # if [[ ! -f Procfile ]]; then
 #   puts-warn 'Warning: Your application is missing a Procfile. This file tells Heroku how to run your application.'
@@ -207,8 +214,8 @@ source $BIN_DIR/steps/brackish
 # # GDAL support.
 # source $BIN_DIR/steps/gdal
 
-# # Install dependencies with Pip.
-# source $BIN_DIR/steps/pip-install
+# Install dependencies with Pip.
+source $BIN_DIR/steps/conda-create
 
 # # Django collectstatic support.
 # sub-env $BIN_DIR/steps/collectstatic
